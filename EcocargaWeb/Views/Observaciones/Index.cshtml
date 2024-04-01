@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Cl.Gob.Energia.Ecocarga.Data.Models.DataObservacion>
+@inject Cl.Gob.Energia.Ecocarga.Web.Services.Interfaces.IUserService _userService
+
+@{
+    ViewData["Title"] = "Detalle observación";
+}
+
+<div class="alert alert-primary mt-4">
+    <h1>Observaciones</h1>
+</div>
+
+<div class="mb-3 text-right">
+    @if (_userService.IsAdmin())
+    {
+        <a asp-action="Create" asp-route-electrolineraId="@ViewData["Electrolinera"]" class="btn btn-primary">Añadir observación</a>
+    }
+</div>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Mensaje)
+            </th>
+            <th>
+                Acciones
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Mensaje)
+                </td>
+                <td width="15%" class="text-left">
+                    <div class="btn-group text-right" role="group" aria-label="Acciones">
+                        @if (_userService.IsAdmin())
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="top" title="Actualizar">
+                                <i class="fas fa-edit fa-fw"></i>
+                            </a>
+                        }
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="top" title="Detalles">
+                            <i class="fas fa-clipboard fa-fw"></i>
+                        </a>
+                        @if (_userService.IsAdmin())
+                        {
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger" data-toggle="tooltip" data-placement="right" title="Borrar">
+                                <i class="fas fa-trash-alt fa-fw"></i>
+                            </a>
+                        }
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    <a asp-action="Electrolinera" class="btn btn-outline-primary">Volver a listado de Electrolineras</a>
+</div>
+
+@section Scripts {
+    <script>$('[data-toggle="tooltip"]').tooltip();</script>
+}

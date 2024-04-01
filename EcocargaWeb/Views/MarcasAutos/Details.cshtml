@@ -1,0 +1,35 @@
+﻿@model Cl.Gob.Energia.Ecocarga.Data.Models.DataMarcaauto
+@inject Cl.Gob.Energia.Ecocarga.Web.Services.Interfaces.IUserService _userService
+
+@{
+    ViewData["Title"] = "Detalle marca de auto";
+}
+
+<div class="alert alert-info mt-4">
+    <h1>Detalle marca de auto</h1>
+</div>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Imagen)
+        </dt>
+        <dd class="col-sm-8">
+            <img class="img-responsive" src="@Url.Content("~/Archivos/" + @Model.Imagen)" alt="">
+        </dd>
+    </dl>
+</div>
+<div>
+    @if (_userService.IsAdmin())
+    {
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-info">Actualizar</a>
+    }
+    <a asp-action="Index" class="btn btn-outline-info">Volver a la lista</a>
+</div>

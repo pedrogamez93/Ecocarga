@@ -1,0 +1,41 @@
+﻿@model Cl.Gob.Energia.Ecocarga.Data.Models.DataTipocobro
+@inject Cl.Gob.Energia.Ecocarga.Web.Services.Interfaces.IUserService _userService
+
+@{
+    ViewData["Title"] = "Detalle precio";
+}
+
+<div class="alert alert-info mt-4">
+    <h1>Detalle precio</h1>
+</div>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Precio)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Precio)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.UnidadCobro)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.UnidadCobro)
+        </dd>
+    </dl>
+</div>
+<div>
+    @if (_userService.IsAdmin())
+    {
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-info">Actualizar</a>
+    }
+    <a asp-action="Index" asp-route-cargadorId="@Model.CargadorId" class="btn btn-outline-info">Volver a la lista</a>
+</div>

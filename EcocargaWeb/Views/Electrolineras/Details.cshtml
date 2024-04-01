@@ -1,0 +1,125 @@
+﻿@model Cl.Gob.Energia.Ecocarga.Data.Models.DataElectrolinera
+@inject Cl.Gob.Energia.Ecocarga.Web.Services.Interfaces.IUserService _userService
+
+@{
+    ViewData["Title"] = "Detalle Electrolinera";
+}
+
+<div class="alert alert-info mt-4">
+    <h1>Detalle Electrolinera</h1>
+</div>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Latitud)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Latitud)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Longitud)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Longitud)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Direccion)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Direccion)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.CantidadPuntosCarga)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.CantidadPuntosCarga)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Marca)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Marca)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Modelo)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Modelo)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Potencia)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Potencia)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Horario)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Horario)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Comuna)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Comuna)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Region)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Region)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.AceptaConexionAc)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.AceptaConexionAc)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.AceptaConexionDc)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.AceptaConexionDc)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Compania)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Compania.Nombre)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.EstadoElectrolinera)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.EstadoElectrolinera)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.IdElectrolineraCliente)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.IdElectrolineraCliente)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.IdElectrolineraSec)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.IdElectrolineraSec)
+        </dd>
+    </dl>
+</div>
+<div>
+    @if (_userService.IsAdmin() || _userService.IsElectrolinera())
+    {
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-info">Actualizar</a>
+    }
+    <a asp-action="Index" class="btn btn-outline-info">Volver a la lista</a>
+</div>

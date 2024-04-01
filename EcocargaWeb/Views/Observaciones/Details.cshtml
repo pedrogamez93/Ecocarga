@@ -1,0 +1,35 @@
+﻿@model Cl.Gob.Energia.Ecocarga.Data.Models.DataObservacion
+@inject Cl.Gob.Energia.Ecocarga.Web.Services.Interfaces.IUserService _userService
+
+@{
+    ViewData["Title"] = "Detalle observación";
+}
+
+<div class="alert alert-primary mt-4">
+    <h1>Detalle observación</h1>
+</div>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Mensaje)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Mensaje)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Electrolinera)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Electrolinera.Nombre)
+        </dd>
+    </dl>
+</div>
+<div>
+    @if (_userService.IsAdmin())
+    {
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-info">Actualizar</a>
+    }
+    <a asp-action="Index" asp-route-electrolineraId="@Model.ElectrolineraId" class="btn btn-outline-primary">Volver a la lista</a>
+</div>

@@ -1,0 +1,32 @@
+﻿@model Cl.Gob.Energia.Ecocarga.Web.Models.Usuario
+@{
+    ViewData["Title"] = "Iniciar sesión";
+}
+
+<div class="row justify-content-center">
+    <div class="alert alert-primary mt-4">
+        <h1 class="alert-heading mb-4">Iniciar sesión</h1>
+        <section>
+            <form asp-action="Login" asp-controller="Account">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="User" class="control-label"></label>
+                    <input asp-for="User" class="form-control" />
+                    <span asp-validation-for="User" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password" class="form-control" type="password" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Acceder" class="btn btn-primary" />
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

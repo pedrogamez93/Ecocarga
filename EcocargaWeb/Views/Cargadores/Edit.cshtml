@@ -1,0 +1,100 @@
+﻿@model Cl.Gob.Energia.Ecocarga.Data.Models.DataCargador
+@inject Cl.Gob.Energia.Ecocarga.Web.Services.Interfaces.IUserService _userService
+
+@{
+    ViewData["Title"] = "Editar cargador";
+}
+
+<div class="alert alert-warning mt-4">
+    <h1>Editar cargador</h1>
+</div>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="ElectrolineraId" />
+            @if (_userService.IsAdmin())
+            {
+                <div class="form-group">
+                    <label asp-for="ElectrolineraId" class="control-label"></label>
+                    <select asp-for="ElectrolineraId" class="form-control" asp-items="ViewBag.ElectrolineraId" disabled></select>
+                    <span asp-validation-for="ElectrolineraId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TipoConectorId" class="control-label-requerido"></label>
+                    <select asp-for="TipoConectorId" class="form-control" asp-items="ViewBag.TipoConectorId">
+                    </select>
+                    <span asp-validation-for="TipoConectorId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TipoCorriente" class="control-label-requerido"></label>
+                    <select asp-for="TipoCorriente" class="form-control">
+                        <option value="ac">AC</option>
+                        <option value="dc">DC</option>
+                    </select>
+                    <span asp-validation-for="TipoCorriente" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="Cable" /> @Html.DisplayNameFor(model => model.Cable)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Potencia" class="control-label-requerido"></label>
+                    <input asp-for="Potencia" class="form-control"/>
+                    <span asp-validation-for="Potencia" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EstadoCargador" class="control-label-requerido"></label>
+                    <select asp-for="IdEstadoCargador" class="form-control">
+                        <option value="0">Ocupado</option>
+                        <option value="1">Disponible</option>
+                        <option value="2">Fuera de Servicio</option>
+                        <option value="3">Disponibilidad no informada</option>
+                    </select>
+                    <span asp-validation-for="IdEstadoCargador" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="IdCargadorCliente" class="control-label-requerido"></label>
+                    <input asp-for="IdCargadorCliente" class="form-control" />
+                    <span asp-validation-for="IdCargadorCliente" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="IdCargadorSec" class="control-label-requerido"></label>
+                    <input asp-for="IdCargadorSec" class="form-control" />
+                    <span asp-validation-for="IdCargadorSec" class="text-danger"></span>
+                </div>
+            }
+            else
+            {
+                <input type="hidden" asp-for="TipoConectorId" />
+                <input type="hidden" asp-for="TipoCorriente" />
+                <input type="hidden" asp-for="Cable" />
+                <input type="hidden" asp-for="Potencia" />
+                <input type="hidden" asp-for="IdEstadoCargador" />
+                <input type="hidden" asp-for="IdCargadorSec" />
+                <div class="form-group">
+                    <label asp-for="ElectrolineraId" class="control-label"></label>
+                    <select asp-for="ElectrolineraId" class="form-control" asp-items="ViewBag.ElectrolineraId" disabled></select>
+                    <span asp-validation-for="ElectrolineraId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="IdCargadorCliente" class="control-label"></label>
+                    <input asp-for="IdCargadorCliente" class="form-control" />
+                    <span asp-validation-for="IdCargadorCliente" class="text-danger"></span>
+                </div>
+            }
+            <div class="form-group">
+                <input type="submit" value="Actualizar" class="btn btn-warning" />
+                <a asp-action="Index" asp-route-electrolineraId="@Model.ElectrolineraId" class="btn btn-outline-warning">Volver a la lista</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

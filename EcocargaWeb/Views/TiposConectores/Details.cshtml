@@ -1,0 +1,29 @@
+﻿@model Cl.Gob.Energia.Ecocarga.Data.Models.DataTipoconector
+@inject Cl.Gob.Energia.Ecocarga.Web.Services.Interfaces.IUserService _userService
+
+@{
+    ViewData["Title"] = "Detalle tipo de conector";
+}
+
+<div class="alert alert-info mt-4">
+    <h1>Detalle tipo de conector</h1>
+</div>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+    </dl>
+</div>
+<div>
+    @if (_userService.IsAdmin())
+    {
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-info">Actualizar</a>
+    }
+    <a asp-action="Index" class="btn btn-outline-info">Volver a la lista</a>
+</div>

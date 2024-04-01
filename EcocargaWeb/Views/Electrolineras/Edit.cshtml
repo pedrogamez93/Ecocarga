@@ -1,0 +1,146 @@
+﻿@model Cl.Gob.Energia.Ecocarga.Data.Models.DataElectrolinera
+@inject Cl.Gob.Energia.Ecocarga.Web.Services.Interfaces.IUserService _userService
+
+@{
+    ViewData["Title"] = "Editar Electrolinera";
+}
+
+<div class="alert alert-warning mt-4">
+    <h1>Editar Electrolinera</h1>
+</div>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <input asp-for="IdPublico" type="hidden" />
+            @if (_userService.IsAdmin())
+            {
+                <div class="form-group">
+                    <label asp-for="Nombre" class="control-label-requerido"></label>
+                    <input asp-for="Nombre" class="form-control" />
+                    <span asp-validation-for="Nombre" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Latitud" class="control-label-requerido"></label>
+                    <input asp-for="Latitud" class="form-control" />
+                    <span asp-validation-for="Latitud" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Longitud" class="control-label-requerido"></label>
+                    <input asp-for="Longitud" class="form-control" />
+                    <span asp-validation-for="Longitud" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Direccion" class="control-label-requerido"></label>
+                    <input asp-for="Direccion" class="form-control" />
+                    <span asp-validation-for="Direccion" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CantidadPuntosCarga" class="control-label-requerido"></label>
+                    <input asp-for="CantidadPuntosCarga" class="form-control" type="text" />
+                    <span asp-validation-for="CantidadPuntosCarga" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Marca" class="control-label-requerido"></label>
+                    <input asp-for="Marca" class="form-control" />
+                    <span asp-validation-for="Marca" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Modelo" class="control-label-requerido"></label>
+                    <input asp-for="Modelo" class="form-control" />
+                    <span asp-validation-for="Modelo" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Potencia" class="control-label-requerido"></label>
+                    <input asp-for="Potencia" class="form-control" />
+                    <span asp-validation-for="Potencia" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Horario" class="control-label-requerido"></label>
+                    <input asp-for="Horario" class="form-control" />
+                    <span asp-validation-for="Horario" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Comuna" class="control-label-requerido"></label>
+                    <input asp-for="Comuna" class="form-control" />
+                    <span asp-validation-for="Comuna" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Region" class="control-label-requerido"></label>
+                    <input asp-for="Region" class="form-control" />
+                    <span asp-validation-for="Region" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CompaniaId" class="control-label-requerido"></label>
+                    <select asp-for="CompaniaId" class="form-control" asp-items="ViewBag.CompaniaId"></select>
+                    <span asp-validation-for="CompaniaId" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="AceptaConexionAc" /> @Html.DisplayNameFor(model => model.AceptaConexionAc)
+                    </label>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="AceptaConexionDc" /> @Html.DisplayNameFor(model => model.AceptaConexionDc)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EstadoElectrolinera" class="control-label-requerido"></label>
+                    <select asp-for="IdEstadoElectrolinera" class="form-control">
+                        <option value="0">Ocupado</option>
+                        <option value="1">Disponible</option>
+                        <option value="2">Fuera de Servicio</option>
+                        <option value="3">Disponibilidad no informada</option>
+                    </select>
+                    <span asp-validation-for="IdEstadoElectrolinera" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="IdElectrolineraCliente" class="control-label-requerido"></label>
+                    <input asp-for="IdElectrolineraCliente" class="form-control" />
+                    <span asp-validation-for="IdElectrolineraCliente" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="IdElectrolineraSec" class="control-label-requerido"></label>
+                    <input asp-for="IdElectrolineraSec" class="form-control" />
+                    <span asp-validation-for="IdElectrolineraSec" class="text-danger"></span>
+                </div>
+            }
+            else
+            {
+                <input asp-for="Nombre" type="hidden" />
+                <input asp-for="Latitud" type="hidden" />
+                <input asp-for="Longitud" type="hidden" />
+                <input asp-for="Direccion" type="hidden" />
+                <input asp-for="CantidadPuntosCarga" type="hidden" />
+                <input asp-for="Marca" type="hidden" />
+                <input asp-for="Modelo" type="hidden" />
+                <input asp-for="Potencia" type="hidden" />
+                <input asp-for="Horario" type="hidden" />
+                <input asp-for="Comuna" type="hidden" />
+                <input asp-for="Region" type="hidden" />
+                <input asp-for="CompaniaId" type="hidden" />
+                <input asp-for="AceptaConexionAc" type="hidden" />
+                <input asp-for="AceptaConexionDc" type="hidden" />
+                <input asp-for="IdEstadoElectrolinera" type="hidden" />
+                <input asp-for="IdElectrolineraSec" type="hidden" />
+                <div class="form-group">
+                    <label asp-for="IdElectrolineraCliente" class="control-label"></label>
+                    <input asp-for="IdElectrolineraCliente" class="form-control" />
+                    <span asp-validation-for="IdElectrolineraCliente" class="text-danger"></span>
+                </div>
+            }
+            <div class="form-group">
+                <input type="submit" value="Actualizar" class="btn btn-warning" />
+                <a asp-action="Index" class="btn btn-outline-warning">Volver a la lista</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

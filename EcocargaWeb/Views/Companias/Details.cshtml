@@ -1,0 +1,47 @@
+﻿@model Cl.Gob.Energia.Ecocarga.Data.Models.DataCompania
+@inject Cl.Gob.Energia.Ecocarga.Web.Services.Interfaces.IUserService _userService
+
+@{
+    ViewData["Title"] = "Detalle propietario";
+}
+
+<div class="alert alert-info mt-4">
+    <h1>Detalle propietario</h1>
+</div>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.RutPropietario)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.RutPropietario)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.UrlInImage)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.UrlInImage)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.UrlImage)
+        </dt>
+        <dd class="col-sm-8">
+            <img class="img-responsive" src="@Url.Content("~/Archivos/" + @Model.UrlImage)" alt="">
+        </dd>
+    </dl>
+</div>
+<div>
+    @if (_userService.IsAdmin())
+    {
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-info">Actualizar</a>
+    }
+    <a asp-action="Index" class="btn btn-outline-info">Volver a la lista</a>
+</div>

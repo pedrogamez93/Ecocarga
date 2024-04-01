@@ -1,0 +1,120 @@
+﻿@inject Cl.Gob.Energia.Ecocarga.Web.Services.Interfaces.IUserService _userService
+@model X.PagedList.IPagedList<Cl.Gob.Energia.Ecocarga.Data.Models.DataElectrolinera>
+@using X.PagedList.Mvc.Core;
+
+@{
+    ViewData["Title"] = "Electrolineras";
+}
+
+<div class="alert alert-primary mt-4">
+    <h1 class="alert-heading mb-4">Electrolineras</h1>
+    <form asp-action="Index" method="get">
+        <div class="form-group row">
+            <div class="col-3">
+                <input type="text" name="SearchString" class="form-control" value="@ViewData["CurrentFilter"]" />
+            </div>
+            <div class="col-1">
+                <input type="submit" value="Buscar" class="btn btn-primary" />
+            </div>
+            <div class="col-3">
+                <a asp-action="Index" style="vertical-align: sub;">Volver a lista completa de registros</a>
+            </div>
+            @if (_userService.IsAdmin())
+            {
+            <div class="col-4 offset-1 text-right">
+                <a asp-action="DownloadXLSAsync" class="btn btn-outline-primary" asp-route-currentFilter="@ViewData["CurrentFilter"]"><i class="fas fa-file-excel fa-fw"></i> Descargar Excel</a>
+                <a asp-action="Create" class="btn btn-primary">Añadir Electrolinera</a>
+            </div>
+            }
+        </div>
+    </form>
+</div>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NombreSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Nombre</a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["RegionSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Región</a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["ComunaSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Comuna</a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["CompaniaSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Propietario</a>
+            </th>
+            <th><a class="text-primary">Acciones</a></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Region)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Comuna)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Compania.Nombre)
+                </td>
+                <td width="20%" class="text-left">
+                    <div class="btn-group text-right" role="group" aria-label="Acciones">
+                        <a asp-action="Observacion" asp-route-id="@item.Id" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="left" title="Observaciones">
+                            <i class="fas fa-eye fa-fw"></i>
+                        </a>
+                        <a asp-action="Cargador" asp-route-id="@item.Id" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="top" title="Cargadores">
+                            <i class="fas fa-charging-station fa-fw"></i>
+                        </a>
+                        @if (_userService.IsAdmin())
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="top" title="Actualizar">
+                                <i class="fas fa-edit fa-fw"></i>
+                            </a>
+                        }
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="top" title="Detalles">
+                            <i class="fas fa-clipboard fa-fw"></i>
+                        </a>
+                        @if (_userService.IsAdmin())
+                        {
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger" data-toggle="tooltip" data-placement="right" title="Borrar">
+                                <i class="fas fa-trash-alt fa-fw"></i>
+                            </a>
+                        }
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@using (Html.BeginForm("Index", "Electrolineras", FormMethod.Get))
+{
+    <div id='Paging' style="text-align: left">
+        @Html.PagedListPager(Model, pageNumber => Url.Action("Index", new
+        {
+            pageNumber,
+            sortOrder = @ViewData["CurrentSort"],
+            currentFilter = @ViewData["CurrentFilter"]
+        }),
+        new X.PagedList.Mvc.Common.PagedListRenderOptionsBase
+        {
+        ContainerDivClasses = new[] { "navigation" },
+        LiElementClasses = new[] { "page-item" },
+        PageClasses = new[] { "page-link" },
+        })
+    </div>
+}
+
+
+@section Scripts {
+    <script>
+        $('[data-toggle="tooltip"]').tooltip();
+    </script>
+}

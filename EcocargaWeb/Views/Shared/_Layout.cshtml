@@ -1,0 +1,98 @@
+﻿@inject Cl.Gob.Energia.Ecocarga.Web.Services.Interfaces.IUserService _userService
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - EcocargaWeb</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/lib/fontawesome/css/all.css" />
+
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body style="background: #e6e6e68f;">
+    <header>
+        <div style="background-image: url('/img/bg_header.jpg');
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: scroll;
+            background-position: center 39%;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;height:14em">
+            <nav class="container navbar navbar-light p-0 h-75">
+                <a class="navbar-brand pt-0 ml-lg-0 ml-2 h-100" href="#">
+                    <div class="logo">
+                        <div class="lg-logo-text">
+                            <span class="franja-azul d-flex float-left" style="height: 20px"></span>
+                            <span class="franja-roja d-flex float-left" style="height: 20px"></span>
+                        </div>
+                        <div class="logo-title float-left text-white text-break text-left">Ministerio de Energía</div>
+                    </div>
+                </a>
+            </nav>
+            @{
+                var controller = this.ViewContext.RouteData.Values["controller"].ToString();
+                if (controller != "Account")
+                {
+                <nav class="container navbar navbar-light p-0 h-25">
+                    <div class="row align-items-end h-100 w-100">
+                        <div class="col pr-0">
+                            <ul class="nav nav-tabs bg-white" style="width:76em">
+                                <li class="nav-item border-right">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                </li>
+                                <li class="nav-item border-right">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Cerrar sesión</a>
+                                </li>
+                                <li style="float:right !important;font-size: 0.8rem;">
+                                    <a>Bienvenido: <strong>@_userService.GetName()</strong></a><br />
+                                    <a>Perfil: <strong>@_userService.GetPerfil()</strong></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>;
+                }
+            }
+        </div>
+
+    </header>
+    <div class="container">
+        <partial name="_CookieConsentPartial" />
+        @if (TempData["notice"] != null)
+        {
+            <div class="alert alert-success">
+                <p>@TempData["notice"]</p>
+            </div>
+        }
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted bg-white">
+        <div class="mt-3 pb-4 bg-white">
+            <div class="container">
+                <p style="line-height: 1.5em" class="text-body">
+                    &copy; 2019 - EcocargaWeb - Versión 2.3
+                    <br /><br />
+                    <span class="font-weight-bold">Ministerio de Energía</span><br />
+                    Alameda 1449, Pisos 13 y 14, Edificio Santiago Downtown II, Santiago de Chile - Fono: +56 2 2 365 6800
+                </p>
+            </div>
+        </div>
+    </footer>
+
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

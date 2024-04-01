@@ -1,0 +1,42 @@
+﻿@model Cl.Gob.Energia.Ecocarga.Data.Models.DataTipocobro
+
+@{
+    ViewData["Title"] = "Editar precio";
+}
+
+<div class="alert alert-warning mt-4">
+    <h1>Editar precio</h1>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="CargadorId" />
+            <div class="form-group">
+                <label asp-for="Nombre" class="control-label-requerido"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UnidadCobro" class="control-label-requerido"></label>
+                <input asp-for="UnidadCobro" class="form-control" type="text" />
+                <span asp-validation-for="UnidadCobro" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Precio" class="control-label-requerido"></label>
+                <input asp-for="Precio" class="form-control" type="text" />
+                <span asp-validation-for="Precio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Actualizar" class="btn btn-warning" />
+                <a asp-action="Index" asp-route-cargadorId="@Model.CargadorId" class="btn btn-outline-warning">Volver a la lista</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

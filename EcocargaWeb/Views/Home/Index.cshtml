@@ -1,0 +1,70 @@
+﻿@inject Cl.Gob.Energia.Ecocarga.Web.Services.Interfaces.IUserService _userService
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Bienvenido</h1>
+    <div class="row">
+        <div class="col-xl-4 col-lg-4 col-sm-6 col-12">
+            <a href="../Electrolineras/Index">
+                <div class="card mb-3">
+                    <h3 class="card-header text-body">Electrolineras</h3>
+                    <img style="height: 200px; width: 100%; display: block;" src="~/img/electric-car-4381728_1920.jpg" alt="Card image">
+                </div>
+            </a>
+        </div>
+        @if (_userService.IsAdmin() || _userService.IsSec())
+        {
+            <div class="col-xl-4 col-lg-4 col-sm-6 col-12">
+                <a href="../Autos/Index">
+                    <div class="card mb-3">
+                        <h3 class="card-header text-body">Autos</h3>
+                        <img style="height: 200px; width: 100%; display: block;" src="~/img/carsharing-4382651_1920.jpg" alt="Card image">
+                    </div>
+                </a>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-sm-12 col-12">
+                <a href="../MarcasAutos/Index">
+                    <div class="card mb-3">
+                        <h3 class="card-header text-body">Marcas de autos</h3>
+                        <img style="height: 200px; width: 100%; display: block;" src="~/img/tesla-4311971_1920.jpg" alt="Card image">
+                    </div>
+                </a>
+            </div>
+        }
+    </div>
+    <div class="row">
+        @if (_userService.IsAdmin() || _userService.IsSec())
+        {
+            <div class="col-xl-4 col-lg-4 col-sm-6 col-12">
+                <a href="../Companias/Index">
+                    <div class="card mb-3">
+                        <h3 class="card-header text-body">Propietarios</h3>
+                        <img style="height: 200px; width: 100%; display: block;" src="~/img/electric-charge-2301604_1920.jpg" alt="Card image">
+                    </div>
+                </a>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-sm-6 col-12">
+                <a href="../TiposConectores/Index">
+                    <div class="card mb-3">
+                        <h3 class="card-header text-body">Tipo de conectores</h3>
+                        <img style="height: 200px; width: 100%; display: block;" src="~/img/electric-car-1458836_1920.jpg" alt="Card image">
+                    </div>
+                </a>
+            </div>
+        }
+        @if (_userService.IsAdmin())
+        {
+            <div class="col-xl-4 col-lg-4 col-sm-6 col-12">
+                <a href="https://console.firebase.google.com/project/ecocarga-7fc66/overview?pli=1" target="_blank">
+                    <div class="card mb-3">
+                        <h3 class="card-header text-body">Google Analytics</h3>
+                        <img style="height: 200px; width: 100%; display: block;" src="~/img/graficaestadisticas.png" alt="Card image">
+                    </div>
+                </a>
+            </div>
+        }
+    </div>
+
+</div>

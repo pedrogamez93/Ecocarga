@@ -1,0 +1,44 @@
+﻿@model Cl.Gob.Energia.Ecocarga.Data.Models.DataMarcaauto
+
+@{
+    ViewData["Title"] = "Borrar marca de auto";
+}
+
+<div class="alert alert-danger mt-4">
+    @if (TempData["alert"] != null)
+    {
+        <h4>@TempData["alert"]</h4>
+    }
+    else
+    {
+        <h1>Borrar marca de auto</h1>
+        <h4>¿Está seguro que desea eliminar el registro?</h4>
+    }
+</div>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Imagen)
+        </dt>
+        <dd class = "col-sm-8">
+            <img class="img-responsive" src="@Url.Content("~/Archivos/" + @Model.Imagen)" alt="">
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        @if (TempData["alert"] == null)
+        {
+            <input type="submit" value="Borrar" class="btn btn-danger" />
+        }
+        <a asp-action="Index" class="btn btn-outline-danger">Volver a la lista</a>
+    </form>
+</div>

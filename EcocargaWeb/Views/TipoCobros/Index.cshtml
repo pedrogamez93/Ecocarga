@@ -1,0 +1,81 @@
+﻿@model IEnumerable<Cl.Gob.Energia.Ecocarga.Data.Models.DataTipocobro>
+@inject Cl.Gob.Energia.Ecocarga.Web.Services.Interfaces.IUserService _userService
+
+@{
+    ViewData["Title"] = "Precios";
+}
+
+<div class="alert alert-primary mt-4">
+    <h1>Precios</h1>
+</div>
+
+<div>
+    @if (_userService.IsAdmin() || _userService.IsElectrolinera())
+    {
+        @if (ViewBag.flag == true)
+        {
+            <a asp-action="Create" asp-route-cargadorId="@ViewData["Cargador"]" class="btn btn-primary" style="float: right;">Añadir precio</a>
+        }
+    }
+</div>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Precio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UnidadCobro)
+            </th>
+            <th>
+                Acciones
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Precio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnidadCobro)
+                </td>
+                <td width="15%" class="text-left">
+                    <div class="btn-group text-right" role="group" aria-label="Acciones">
+                        @if (_userService.IsAdmin() || _userService.IsElectrolinera())
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="top" title="Actualizar">
+                                <i class="fas fa-edit fa-fw"></i>
+                            </a>
+                        }
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="top" title="Detalles">
+                            <i class="fas fa-clipboard fa-fw"></i>
+                        </a>
+                        @if (_userService.IsAdmin() || _userService.IsElectrolinera())
+                        {
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger" data-toggle="tooltip" data-placement="right" title="Borrar">
+                                <i class="fas fa-trash-alt fa-fw"></i>
+                            </a>
+                        }
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    <a asp-action="Cargador" asp-route-electrolineraId="@ViewData["Electrolinera"]" class="btn btn-outline-primary">Volver a listado de Cargadores</a>
+</div>
+
+@section Scripts {
+    <script>$('[data-toggle="tooltip"]').tooltip();</script>
+}

@@ -1,0 +1,147 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  font-size: 14px;
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  line-height: 60px; /* Vertically center the text there */
+}
+
+.img-responsive {
+    max-width: 300px;
+}
+
+.nav > li:last-child {
+    right: 0;
+    position: absolute
+}
+
+@font-face {
+    font-family: gobCl;
+    src: url("../fonts/gobCL_Regular.otf");
+}
+
+@font-face {
+    font-family: "gobCl_light";
+    src: url("../fonts/gobCL_Light.otf");
+}
+
+@font-face {
+    font-family: "gobCL_Bold";
+    src: url("../fonts/gobCL_Bold.otf");
+}
+
+@font-face {
+    font-family: "gobCL_Heavy";
+    src: url("../fonts/gobCL_Heavy.otf");
+}
+
+.logo {
+    display: block;
+}
+
+.logo .md-logo {
+    display: none;
+}
+
+.logo .lg-logo {
+    display: block;
+}
+
+.logo .lg-logo-text .franja-azul {
+    display: block;
+    width: 70px;
+    height: 15px;
+    background-color: #0167b7;
+}
+
+.logo .lg-logo-text .franja-roja {
+    display: block;
+    width: 87px;
+    height: 15px;
+    background-color: #ee3a41;
+}
+
+.logo .logo-title {
+    max-width: 183px;
+    margin-top: 20px;
+    font-family: gobCl;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 24px;
+    white-space: initial;
+}
+
+@media (max-width: 768px) {
+    .logo .md-logo {
+        display: block;
+    }
+
+    .logo .lg-logo {
+        display: none;
+    }
+
+    .logo .lg-logo-text .franja-azul {
+        width: 54px;
+        height: 14px;
+    }
+
+    .logo .lg-logo-text .franja-roja {
+        width: 67px;
+        height: 14px;
+    }
+
+    .logo .logo-title {
+        margin-top: 10px;
+        font-size: 16px;
+        line-height: 19px;
+    }
+}

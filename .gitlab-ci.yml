@@ -1,0 +1,55 @@
+variables:
+  DOCKER_DRIVER: overlay2
+  DOCKER_REGISTRY: zekecontainer.azurecr.io/
+  SONAR_SERVER_NAME: historico.zeke.cl
+  SONAR_SERVER_NAME_SSL: historico.zeke.cl:443
+  SONAR_URL: https://historico.zeke.cl
+  SONAR_PROJECT_KEY: MINENERGIA.EcocargaWeb2
+  SONAR_PROJECT_NAME: MINENERGIA.EcocargaWeb
+  SONAR_PROJECT_VERSION: ${CI_COMMIT_REF_SLUG}-${CI_COMMIT_SHA}
+  NUGGET_PACKAGE_FOLDER: nuggetPackages/
+  SONAR_COVERAGE_EXCLUDED_FOLDERS: wwwroot\lib\**\*,**Tests*.cs,wwwroot\css\esri.css,wwwroot\css\modal.css,wwwroot\css\*bootstrap4.css,wwwroot\js\*responsive.js,wwwroot/js/*bootstrap4.js,\PdfTemplate\*.html,\PdfTemplate\**\*.html, 
+  NUGGET_ZEKE: https://nexus3.zeke.cl/repository/nuget-group/
+  BUILD_FOLDER: appBuild/
+  TEST_RESULT_FOLDER: testResult/
+
+cache:
+ key: ${CI_COMMIT_REF_SLUG}
+ paths:
+  - $NUGGET_PACKAGE_FOLDER
+  - $BUILD_FOLDER
+  - $TEST_RESULT_FOLDER
+  - "**/obj/project.assets.json"
+  - "**/obj/*.csproj.nuget.cache"
+  - "**/obj/*.nuget.g.props"
+  - "**/obj/*.nuget.g.targets"
+ 
+
+stages:
+  - build
+  - test
+  - deploy
+
+build_job:
+ stage: build
+ image: gitlab.zeke.cl:4567/minenergia/ecocargaweb2/sonarscanner:v1
+ variables:
+  OUTPUT_PEM_FILENAME: sonar.pem
+  JAVA_KEYSTORE: /usr/lib/jvm/java-1.8-openjdk/jre/lib/security/cacerts
+ before_script:
+  - openssl s_client -servername $SONAR_SERVER_NAME -connect $SONAR_SERVER_NAME_SSL </dev/null | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > $OUTPUT_PEM_FILENAME
+  - keytool -keystore $JAVA_KEYSTORE -storepass changeit -noprompt -import -file $OUTPUT_PEM_FILENAME -alias sonar
+  - export PATH="$PATH:/root/.dotnet/tools"
+ script:
+   - dotnet sonarscanner begin /k:$SONAR_PROJECT_NAME /v:$SONAR_PROJECT_VERSION 
+            /d:sonar.host.url=$SONAR_URL 
+            /d:sonar.login=$SONAR_TOKEN 
+            /d:sonar.cs.opencover.reportsPaths="$TEST_RESULT_FOLDER/.opencover.xml" 
+            /d:sonar.exclusions="$SONAR_COVERAGE_EXCLUDED_FOLDERS" 
+            /d:sonar.coverage.exclusions="$SONAR_COVERAGE_EXCLUDED_FOLDERS" 
+            /d:sonar.gitlab.project_id=$CI_PROJECT_PATH 
+            /d:sonar.gitlab.commit_sha=$CI_COMMIT_SHA 
+            /d:sonar.gitlab.ref_name=$CI_COMMIT_REF_NAME 
+ #           /d:sonar.branch.name=$CI_COMMIT_REF_NAME 
+   - dotnet build EcocargaWeb.sln -c Release --packages $NUGGET_PACKAGE_FOLDER --source $NUGGET_ZEKE --output ../$BUILD_FOLDER
+   - dotnet sonarscanner end /d:sonar.login=$SONAR_TOKEN    

@@ -1,0 +1,82 @@
+﻿@model Cl.Gob.Energia.Ecocarga.Data.Models.DataAuto
+
+@{
+    ViewData["Title"] = "Borrar auto";
+}
+
+<div class="alert alert-danger mt-4">
+    <h1>Borrar auto</h1>
+    <h4>¿Está seguro que desea eliminar el registro?</h4>
+</div>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-4">
+            Modelo
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Modelo)
+        </dd>
+        <dt class="col-sm-4">
+            Tracción
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Traccion)
+        </dd>
+        <dt class="col-sm-4">
+            Capacidad de bateria (en kWh)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.CapacidadBateria)
+        </dd>
+        <dt class="col-sm-4">
+            Capacidad de inversor interno AC (en kW)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.CapacidadInversorInternoAc)
+        </dd>
+        <dt class="col-sm-4">
+            Rendimiento eléctrico
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.RendimientoElectrico)
+        </dd>
+        <dt class="col-sm-4">
+            Imagen
+        </dt>
+        <dd class="col-sm-8">
+            <img class="img-responsive" src="@Url.Content("~/Archivos/" + @Model.Imagen)" alt="">
+        </dd>
+        <dt class="col-sm-4">
+            Marca
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Marca.Nombre)
+        </dd>
+        <dt class="col-sm-4">
+            Tipo de conector AC
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.TipoConectorAc.Nombre)
+        </dd>
+        <dt class="col-sm-4">
+            Tipo de conector DC
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.TipoConectorDc.Nombre)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.CodigoInformeTecnico)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.CodigoInformeTecnico)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Borrar" class="btn btn-danger" />
+        <a asp-action="Index" class="btn btn-outline-danger">Volver a la lista</a>
+    </form>
+</div>

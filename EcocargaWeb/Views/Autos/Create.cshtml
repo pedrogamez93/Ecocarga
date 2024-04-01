@@ -1,0 +1,82 @@
+﻿@model Cl.Gob.Energia.Ecocarga.Data.Models.DataAuto
+
+@{
+    ViewData["Title"] = "Añadir auto";
+}
+
+<div class="alert alert-primary mt-4">
+    <h1>Añadir auto</h1>
+</div>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Modelo" class="control-label-requerido"></label>
+                <input asp-for="Modelo" class="form-control" />
+                <span asp-validation-for="Modelo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Traccion" class="control-label-requerido"></label>
+                <input asp-for="Traccion" class="form-control" />
+                <span asp-validation-for="Traccion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MarcaId" class="control-label-requerido"></label>
+                <select asp-for="MarcaId" class="form-control" asp-items="ViewBag.MarcaId">
+                    <option value="">----Seleccione----</option>
+                </select>
+                <span asp-validation-for="MarcaId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TipoConectorAcId" class="control-label"></label>
+                <select asp-for="TipoConectorAcId" class="form-control" asp-items="ViewBag.TipoConectorAcId">
+                    <option value="">----Seleccione----</option>
+                </select>
+                <span asp-validation-for="TipoConectorAcId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TipoConectorDcId" class="control-label"></label>
+                <select asp-for="TipoConectorDcId" class="form-control" asp-items="ViewBag.TipoConectorDcId">
+                    <option value="">----Seleccione----</option>
+                </select>
+                <span asp-validation-for="TipoConectorDcId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CapacidadBateria" class="control-label-requerido"></label>
+                <input asp-for="CapacidadBateria" class="form-control"/>
+                <span asp-validation-for="CapacidadBateria" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CapacidadInversorInternoAc" class="control-label-requerido"></label>
+                <input asp-for="CapacidadInversorInternoAc" class="form-control"/>
+                <span asp-validation-for="CapacidadInversorInternoAc" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RendimientoElectrico" class="control-label-requerido"></label>
+                <input asp-for="RendimientoElectrico" class="form-control" />
+                <span asp-validation-for="RendimientoElectrico" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Archivo" class="control-label-requerido"></label>
+                <input asp-for="Archivo" type="file" />
+                <span asp-validation-for="Archivo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CodigoInformeTecnico" class="control-label-requerido"></label>
+                <input asp-for="CodigoInformeTecnico" class="form-control" />
+                <span asp-validation-for="CodigoInformeTecnico" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Guardar" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-outline-primary">Volver a la lista</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
