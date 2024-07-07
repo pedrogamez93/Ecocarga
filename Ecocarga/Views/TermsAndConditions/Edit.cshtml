@@ -1,0 +1,20 @@
+﻿@model TermsAndConditions
+
+<div class="container mt-4">
+    <h2>Editar Término y Condición</h2>
+    <form asp-action="Edit" method="post">
+        <div class="form-group">
+            <input asp-for="Id" type="hidden" />
+            <label asp-for="Content" class="form-label">Contenido</label>
+            <textarea asp-for="Content" class="form-control" rows="5"></textarea>
+            <span asp-validation-for="Content" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Guardar Cambios</button>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

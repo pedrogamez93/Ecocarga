@@ -1,0 +1,35 @@
+﻿@functions {
+    public string Truncate(string input, int maxLength)
+    {
+        if (string.IsNullOrEmpty(input) || input.Length <= maxLength)
+            return input;
+        return input.Substring(0, maxLength) + "...";
+    }
+}
+
+@model IEnumerable<TermsAndConditions>
+
+<div class="mb-3">
+    <a asp-action="Create" class="btn btn-primary">Crear Nuevo Término</a>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Contenido</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var term in Model)
+        {
+            <tr>
+                <td>@Truncate(term.Content, 50)</td> <!-- Trunca el contenido a 50 caracteres -->
+                <td>
+                    <a asp-action="Edit" asp-route-id="@term.Id" class="btn btn-warning btn-sm">Editar</a>
+                    <a asp-action="Delete" asp-route-id="@term.Id" class="btn btn-danger btn-sm">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

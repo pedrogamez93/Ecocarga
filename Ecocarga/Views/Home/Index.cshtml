@@ -1,0 +1,43 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="jumbotron jumbotron-fluid text-center bg-primary text-white mb-4">
+    <div class="container">
+        <h1 class="display-4">Ecocarga</h1>
+       
+    </div>
+</div>
+
+<div class="container">
+    <h2 class="mb-4">Escritorio</h2>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Términos y Condiciones</h5>
+                    <p class="card-text">Gestiona los términos y condiciones del sistema.</p>
+                    <a href="@Url.Action("Index", "TermsAndConditions")" class="btn btn-primary">Ir a Términos</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Usuarios</h5>
+                    <p class="card-text">Administra los usuarios del sistema.</p>
+                    <a href="@Url.Action("Index", "UserManagement")" class="btn btn-primary">Ir a Usuarios</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Cerrar Sesión</h5>
+                    <p class="card-text">Cierra la sesión actual.</p>
+                    <a href="@Url.Action("Logout", "Account")" class="btn btn-danger">Cerrar Sesión</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
