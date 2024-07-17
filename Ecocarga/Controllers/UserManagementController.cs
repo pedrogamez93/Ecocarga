@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
-
 public class UserManagementController : Controller
 {
     private readonly UserManager<ApplicationUser> _userManager;
@@ -12,40 +11,6 @@ public class UserManagementController : Controller
     {
         _userManager = userManager;
     }
-
-    [HttpGet]
-    public IActionResult Index()
-    {
-        var users = _userManager.Users;
-        return View(users);
-    }
-
-    [HttpGet]
-    public IActionResult Create()
-    {
-        return View();
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> Create(CreateUserViewModel model)
-    {
-        if (ModelState.IsValid)
-        {
-            var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-            var result = await _userManager.CreateAsync(user, model.Password);
-            if (result.Succeeded)
-            {
-                return RedirectToAction("Index");
-            }
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error.Description);
-            }
-        }
-        return View(model);
-    }
-
-    // Métodos adicionales para editar y eliminar usuarios
 
     [HttpGet]
     public async Task<IActionResult> Edit(string id)
@@ -151,5 +116,5 @@ public class UserManagementController : Controller
 
         return View(model);
     }
-
 }
+
