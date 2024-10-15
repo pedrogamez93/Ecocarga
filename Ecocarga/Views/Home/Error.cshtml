@@ -1,0 +1,22 @@
+﻿@model Ecocarga.Models.ErrorViewModel
+
+@{
+    ViewData["Title"] = "Error";
+}
+
+<h1 class="text-danger">Se ha producido un error</h1>
+
+@if (Model.ShowRequestId)
+{
+    <p>
+        <strong>Identificador de la solicitud:</strong> @Model.RequestId
+    </p>
+}
+
+<p>
+    <strong>Mensaje de error:</strong> @Model.ErrorMessage
+</p>
+
+<p>
+    Lamentamos las molestias. Por favor, intente nuevamente más tarde.
+</p>

@@ -1,15 +1,83 @@
 ﻿using Ecocarga.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 public class UserManagementController : Controller
 {
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly RoleManager<IdentityRole> _roleManager;
 
-    public UserManagementController(UserManager<ApplicationUser> userManager)
+    public UserManagementController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
     {
         _userManager = userManager;
+        _roleManager = roleManager;
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Index()
+    {
+        var users = _userManager.Users.ToList();
+        var userViewModels = new List<UserViewModel>();
+
+        foreach (var user in users)
+        {
+            // Obtiene los roles del usuario usando el UserManager
+            var roles = await _userManager.GetRolesAsync(user);
+            userViewModels.Add(new UserViewModel
+            {
+                Id = user.Id,
+                Email = user.Email,
+                Roles = string.Join(", ", roles) // Combina los roles en un string
+            }); ;
+        }
+
+        return View(userViewModels);
+    }
+
+
+    [HttpGet]
+    public IActionResult Create()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Create(CreateUserViewModel model)
+    {
+        if (ModelState.IsValid)
+        {
+            // Verificar si el rol existe, si no, crearlo
+            if (!await _roleManager.RoleExistsAsync(model.Role))
+            {
+                await _roleManager.CreateAsync(new IdentityRole(model.Role));
+            }
+
+            var user = new ApplicationUser
+            {
+                UserName = model.Email,
+                Email = model.Email
+            };
+
+            var result = await _userManager.CreateAsync(user, model.Password);
+
+            if (result.Succeeded)
+            {
+                // Asignar rol al usuario
+                await _userManager.AddToRoleAsync(user, model.Role);
+                return RedirectToAction("Index");
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+        }
+
+        return View(model);
     }
 
     [HttpGet]
@@ -70,6 +138,7 @@ public class UserManagementController : Controller
         return View(model);
     }
 
+
     [HttpGet]
     public async Task<IActionResult> Delete(string id)
     {
@@ -117,4 +186,3 @@ public class UserManagementController : Controller
         return View(model);
     }
 }
-

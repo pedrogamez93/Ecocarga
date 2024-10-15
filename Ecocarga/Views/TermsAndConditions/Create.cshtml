@@ -11,7 +11,17 @@
         <button type="submit" class="btn btn-primary mt-3">Crear</button>
     </form>
 </div>
-
+<script src="https://cdn.tiny.cloud/1/vvvxeibkpqg7fqu57hpo5x6ys85z4sv24f1j63r130x5x7j9/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+    tinymce.init({
+        selector: '#Content', // Selector del campo de texto que quieres convertir en editor
+        menubar: false, // Opcional: Deshabilita la barra de menú si no la necesitas
+        plugins: 'lists link image charmap print preview hr anchor pagebreak', // Habilita plugins según tus necesidades
+        toolbar: 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help', // Configura la barra de herramientas
+        height: 300, // Altura del editor
+        branding: false // Remueve la marca de TinyMCE si estás usando una versión paga
+    });
+</script>
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

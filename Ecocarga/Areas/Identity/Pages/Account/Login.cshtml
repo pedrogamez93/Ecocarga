@@ -5,6 +5,8 @@
     ViewData["Title"] = "Iniciar sesión";
 }
 
+
+
 <h1>@ViewData["Title"]</h1>
 <div class="row">
     <div class="col-md-9">
@@ -26,22 +28,22 @@
                 <div class="checkbox mb-3">
                     <label asp-for="Input.RememberMe" class="form-label">
                         <input class="form-check-input" asp-for="Input.RememberMe" />
-                        @Html.DisplayNameFor(m => m.Input.RememberMe)
+                       @*  @Html.DisplayNameFor(m => m.Input.RememberMe) *@ Recordar
                     </label>
                 </div>
                 <div>
-                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Iniciar sesión</button>
+                    <button id="login-submit" type="submit" class="w-100 btn btn-lg " style="background:#279769;color:#ffff;">Iniciar sesión</button>
                 </div>
                 <div>
                     <p>
                         <a id="forgot-password" asp-page="./ForgotPassword">¿Olvidaste tu contraseña?</a>
                     </p>
-                    <p>
+                   @*  <p>
                         <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Regístrate como nuevo usuario</a>
                     </p>
                     <p>
                         <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Reenviar confirmación de correo</a>
-                    </p>
+                    </p> *@
                 </div>
             </form>
         </section>
@@ -78,7 +80,9 @@
             }
         </section>
     </div>
-</div> *@
+</div>
+
+*@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

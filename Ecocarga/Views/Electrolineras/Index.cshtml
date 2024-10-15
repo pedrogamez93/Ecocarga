@@ -1,0 +1,197 @@
+﻿@model Ecocarga.Models.ElectrolineraListViewModel
+
+<style>
+    .dataTables_wrapper .dataTables_info,
+    .dataTables_wrapper .dataTables_paginate {
+        display: none;
+    }
+
+    .details-control {
+        cursor: pointer;
+    }
+</style>
+
+<div class="container mt-4">
+    <h2>Lista de Electrolineras</h2>
+
+    <div class="mb-3">
+        <a href="@Url.Action("DownloadExcel", "Electrolineras")" class="btn btn-success">Descargar Excel</a>
+    </div>
+
+    <table id="electrolinerasTable" class="table table-bordered">
+        <thead>
+            <tr>
+                <th></th> <!-- Columna para botón de expansión -->
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Dirección</th>
+                <th>Comuna</th>
+                <th>Región</th>
+                <th>Coordenadas</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Electrolineras)
+            {
+                <tr>
+                    <td class="details-control"><i class="fas fa-plus-circle"></i></td>
+                    <td>@item.LocationId</td>
+                    <td>@item.Name</td>
+                    <td>@item.Address</td>
+                    <td>@item.Commune</td>
+                    <td>@item.Region</td>
+                    <td>Lat: @item.Coordinates.Latitude, Lng: @item.Coordinates.Longitude</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- Paginación avanzada -->
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <!-- Botón Anterior -->
+            @if (Model.CurrentPage > 1)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="@Url.Action("Index", new { page = Model.CurrentPage - 1 })" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            }
+
+            <!-- Números de página -->
+            @{
+                int maxPagesToShow = 20;
+                int startPage = Math.Max(1, Model.CurrentPage - (maxPagesToShow / 2));
+                int endPage = Math.Min(Model.TotalPages, startPage + maxPagesToShow - 1);
+
+                if (startPage > 1)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Index", new { page = 1 })">1</a>
+                    </li>
+                    <li class="page-item disabled">
+                        <span class="page-link">...</span>
+                    </li>
+                }
+
+                for (var i = startPage; i <= endPage; i++)
+                {
+                    <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                        <a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
+                    </li>
+                }
+
+                if (endPage < Model.TotalPages)
+                {
+                    <li class="page-item disabled">
+                        <span class="page-link">...</span>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Index", new { page = Model.TotalPages })">@Model.TotalPages</a>
+                    </li>
+                }
+            }
+
+            <!-- Botón Siguiente -->
+            @if (Model.CurrentPage < Model.TotalPages)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="@Url.Action("Index", new { page = Model.CurrentPage + 1 })" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>
+
+@section Scripts {
+    <!-- Incluir scripts de DataTables -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var table = $('#electrolinerasTable').DataTable({
+                "paging": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/2.1.3/i18n/es-CL.json"
+                }
+            });
+
+            // Formato de la fila de detalles
+            function format(d) {
+                // Verificar si d.evses está definido y es un array
+                var evsesDetails = (d.evses && Array.isArray(d.evses)) ?
+                    d.evses.map(function (evse) {
+                        // Mostrar los detalles de cada evse y sus conectores
+                        var connectorsDetails = (evse.connectors && Array.isArray(evse.connectors)) ?
+                            evse.connectors.map(function (connector) {
+                                return '<li>Conector ID: ' + connector.connector_id +
+                                    ', Tipo: ' + connector.standard +
+                                    ', Formato: ' + connector.format +
+                                    ', Potencia Máxima: ' + connector.max_electric_power + ' kW' +
+                                    ', Estado: ' + connector.status + '</li>';
+                            }).join('') : '<li>No hay conectores disponibles.</li>';
+
+                        // Agregar el número de conectores después de la lista de conectores
+                        var numConnectors = evse.connectors ? evse.connectors.length : 0;
+
+                        return '<li>Modelo: ' + (evse.model || 'N/A') + ', Marca: ' + (evse.brand || 'N/A') +
+                            ', Estado: ' + evse.status +
+                            ', Potencia Máxima: ' + evse.max_electric_power + ' kW' +
+                            '<ul><strong>Conectores (' + numConnectors + '):</strong>' + connectorsDetails + '</ul></li>';
+                    }).join('') : '<li>No hay detalles de EVSE disponibles.</li>';
+
+                   
+
+                // Formato de los detalles del propietario (owner)
+                var ownerDetails = (d.owner) ?
+                    '<li><strong>Nombre:</strong> ' + (d.owner.name || 'N/A') +
+                    ', <strong>RUT:</strong> ' + (d.owner.RUT || 'N/A') +
+                    ', <strong>Email:</strong> ' + (d.owner.email || 'N/A') +
+                    ', <strong>Teléfono:</strong> ' + (d.owner.phone || 'N/A') +
+                    ', <strong>Dirección:</strong> ' + (d.owner.address || 'N/A') + '</li>' :
+                    '<li>No hay detalles del propietario disponibles.</li>';
+
+                return '<div><strong>EVSE Detalles:</strong>' +
+                    '<ul>' + evsesDetails + '</ul>' +
+                    '<p><strong>Tipo de Instalación de Carga:</strong> ' + (d.charging_instalation_type || "N/A") + '</p>' +
+                    '<p><strong>Teléfono de Soporte:</strong> ' + (d.support_phone_number || "N/A") + '</p>' +
+                    '<ul><strong>Detalles del Propietario:</strong>' + ownerDetails + '</ul>' +
+                    '</div>';
+            }
+
+            // Manejar detalles de la fila
+            $('#electrolinerasTable tbody').on('click', 'td.details-control', function () {
+                var tr = $(this).closest('tr');
+                var row = table.row(tr);
+                var icon = $(this).find('i');  // Encontrar el ícono dentro del botón
+
+                if (row.child.isShown()) {
+                    // Cerrar la fila de detalles
+                    row.child.hide();
+                    tr.removeClass('shown');
+                    icon.removeClass('fa-minus-circle').addClass('fa-plus-circle');  // Cambiar el ícono a "+"
+                } else {
+                    // Obtener los datos de la fila actual y mostrar los detalles
+                    var data = @Html.Raw(Json.Serialize(Model.Electrolineras));
+                    row.child(format(data[row.index()])).show();
+                    tr.addClass('shown');
+                    icon.removeClass('fa-plus-circle').addClass('fa-minus-circle');  // Cambiar el ícono a "-"
+                }
+            });
+
+        });
+    </script>
+
+
+
+
+
+
+
+}

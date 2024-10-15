@@ -1,0 +1,28 @@
+﻿@model IFormFile
+
+@{
+    ViewData["Title"] = "Cargar CSV de Baterías";
+}
+
+<h2>Cargar CSV de Baterías</h2>
+
+<div class="row">
+    <!-- Formulario para subir el archivo CSV -->
+    <div class="col-md-6">
+        <form asp-action="Cargar" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label for="file">Selecciona el archivo CSV</label>
+                <input type="file" name="file" class="form-control" required />
+            </div>
+            <button type="submit" class="btn btn-primary">Subir</button>
+        </form>
+    </div>
+
+    <!-- Sección de ejemplo CSV -->
+    <div class="col-md-6">
+        <h4>Ejemplo de archivo CSV</h4>
+        <p>Puedes descargar un archivo de ejemplo para ver cómo debe estar estructurado el archivo CSV.</p>
+        <a href="~/files/Libro1.csv" class="btn btn-success">Descargar Ejemplo CSV</a>
+    </div>
+</div>

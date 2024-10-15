@@ -20,3 +20,17 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.bg  {
+    background-color: #279769;
+    color: white;
+}
+.fondoverde {
+    background-color: #279769;
+    color: white;
+}
+
+.btnverde {
+    background-color: #279769;
+    color: white;
+}

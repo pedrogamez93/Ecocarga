@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Ecocarga.Models.UserAction>
+
+<h2>Historial de Acciones del Usuario</h2>
+
+<table id="userActionsTable" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Usuario</th>
+            <th>Tipo de Acción</th>
+            <th>Descripción</th>
+            <th>Fecha y Hora</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var action in Model)
+        {
+            <tr>
+                <td>@action.UserId</td>
+                <td>@action.ActionType</td>
+                <td>@action.ActionDescription</td>
+                <td>@action.ActionTime.ToString("g")</td> <!-- Para mostrar la fecha en formato corto -->
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#userActionsTable').DataTable({
+                "paging": true,           // Paginación activada
+                "searching": true,        // Búsqueda activada
+                "ordering": true,         // Permite ordenar columnas
+                "info": true,             // Muestra información de la tabla
+                "lengthChange": false,    // Desactiva la opción de cambiar la cantidad de registros mostrados
+                "pageLength": 10,         // Cantidad de registros por página
+                "language": {
+                    "search": "Buscar:",   // Traduce la etiqueta de búsqueda
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Último",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    },
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ usuarios",
+                    "infoFiltered": "(filtrado de _MAX_ usuarios en total)"
+                }
+            });
+        });
+    </script>
+}

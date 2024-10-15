@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+using System.Collections.Generic; // Añadir si es necesario
+
 public class CreateUserViewModel
 {
     [Required]
@@ -14,4 +16,8 @@ public class CreateUserViewModel
     [Display(Name = "Confirm password")]
     [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
     public string ConfirmPassword { get; set; } = string.Empty; // Asignar valor predeterminado
+
+    [Required]
+    [Display(Name = "Rol")]
+    public string? Role { get; set; }
 }

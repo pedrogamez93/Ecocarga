@@ -12,5 +12,9 @@
         }
 
         public DbSet<TermsAndConditions> TermsAndConditions { get; set; }
+        public DbSet<Bateria> Baterias { get; set; }
+
+        public DbSet<UserAction> UserActions { get; set; }
+
     }
 }

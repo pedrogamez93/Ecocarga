@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Ecocarga.Models.Bateria>
+
+@{
+    ViewData["Title"] = "Lista de Baterías";
+}
+
+<h2>Lista de Baterías</h2>
+
+<div class="mb-3">
+    <!-- Botón para subir CSV -->
+    <a asp-action="Cargar" class="btn btn-primary">Subir CSV</a>
+
+    <!-- Botón para eliminar todos los registros -->
+    <form asp-action="EliminarTodo" method="post" style="display:inline;">
+        <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar todos los registros?')">Eliminar Todos</button>
+    </form>
+</div>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Capacidad</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var bateria in Model)
+        {
+            <tr>
+                <td>@bateria.Id</td>
+                <td>@bateria.Capacidad  (kWh)</td>
+            </tr>
+        }
+    </tbody>
+</table>

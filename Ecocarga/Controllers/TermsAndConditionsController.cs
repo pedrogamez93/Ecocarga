@@ -1,21 +1,27 @@
 ﻿using Ecocarga.Data;
 using Ecocarga.Models;
+using Ecocarga.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 public class TermsAndConditionsController : Controller
 {
     private readonly ApplicationDbContext _context;
-
-    public TermsAndConditionsController(ApplicationDbContext context)
+    private readonly UserActionService _userActionService;
+    public TermsAndConditionsController(ApplicationDbContext context, UserActionService userActionService)
     {
         _context = context;
+        _userActionService = userActionService; // Asignación del servicio de registro de acciones
     }
 
     [HttpGet]
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
         var terms = _context.TermsAndConditions;
+
+        // Registrar la acción de visualización de términos y condiciones
+        await _userActionService.LogActionAsync("Visualización de Términos y Condiciones", "El usuario ha visualizado la lista de términos y condiciones.");
+
         return View(terms);
     }
 
@@ -33,11 +39,14 @@ public class TermsAndConditionsController : Controller
             model.CreatedAt = DateTime.Now;
             _context.TermsAndConditions.Add(model);
             await _context.SaveChangesAsync();
+
+            // Registrar la acción de creación de términos y condiciones
+            await _userActionService.LogActionAsync("Creación de Términos y Condiciones", $"El usuario ha creado los términos y condiciones: {model.Id}");
+
             return RedirectToAction("Index");
         }
         return View(model);
     }
-
     // Métodos adicionales para editar y eliminar términos y condiciones
 
     [HttpGet]
@@ -48,6 +57,9 @@ public class TermsAndConditionsController : Controller
         {
             return NotFound();
         }
+
+        // Registrar la acción de edición de términos y condiciones (al visualizar la vista de edición)
+        await _userActionService.LogActionAsync("Edición de Términos y Condiciones", $"El usuario está editando los términos y condiciones: {term.Id}");
 
         return View(term);
     }
@@ -68,6 +80,10 @@ public class TermsAndConditionsController : Controller
 
             _context.TermsAndConditions.Update(term);
             await _context.SaveChangesAsync();
+
+            // Registrar la acción de actualización de términos y condiciones
+            await _userActionService.LogActionAsync("Actualización de Términos y Condiciones", $"El usuario ha actualizado los términos y condiciones: {term.Id}");
+
             return RedirectToAction("Index");
         }
         return View(model);
@@ -81,6 +97,9 @@ public class TermsAndConditionsController : Controller
         {
             return NotFound();
         }
+
+        // Registrar la acción de visualización de la vista de eliminación de términos y condiciones
+        await _userActionService.LogActionAsync("Eliminación de Términos y Condiciones", $"El usuario ha accedido a la eliminación de los términos y condiciones: {term.Id}");
 
         return View(term);
     }
@@ -96,6 +115,10 @@ public class TermsAndConditionsController : Controller
 
         _context.TermsAndConditions.Remove(term);
         await _context.SaveChangesAsync();
+
+        // Registrar la acción de eliminación de términos y condiciones
+        await _userActionService.LogActionAsync("Eliminación de Términos y Condiciones", $"El usuario ha eliminado los términos y condiciones: {term.Id}");
+
         return RedirectToAction("Index");
     }
 }

@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -7,44 +10,80 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Ecocarga.styles.css" asp-append-version="true" />
+    <!-- CSS de DataTables -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg border-bottom box-shadow mb-3  text-white">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Ecocarga</a>
+                <img src="@Url.Content("~/images/logo.png")" alt="Logo" width="4%">
+
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                    <ul class="navbar-nav flex-grow-1 ml-3">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        @* <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy"></a>
-                        </li> *@
                     </ul>
-                    <partial name="_LoginPartial" />
+                    <div style="color: white !important;">
+                        <partial name="_LoginPartial" />
+                    </div>
                 </div>
             </div>
         </nav>
     </header>
     <div class="container">
+        @{
+            var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+            var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+            var currentArea = ViewContext.RouteData.Values["area"]?.ToString();
+        }
+
+        @if ((currentController != "Home" || currentAction != "Index") && currentArea != "Identity")
+        {
+            <div class="container mt-2" id="backButtonContainer">
+                <button class="btn btn-secondary mb-3" onclick="goBack()">
+                    <i class="fas fa-arrow-left"></i> Volver
+                </button>
+            </div>
+        }
+
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - Ecocarga - <a asp-area="" asp-controller="Home" asp-action="Privacy">@* Privacy *@</a>
+    <footer class="border-top footer text-muted fondoverde">
+        <div class="container text-white text-center">
+            &copy; 2024 - Ecocarga - <a asp-area="" asp-controller="Home" asp-action="Privacy"></a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('La página ha terminado de cargar.');
+            document.querySelectorAll('.partial-content *').forEach(function (element) {
+                element.style.color = 'white';
+            });
+        });
+    </script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

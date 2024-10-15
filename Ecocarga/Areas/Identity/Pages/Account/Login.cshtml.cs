@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Ecocarga.Models;
+using Ecocarga.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -22,11 +23,13 @@ namespace Ecocarga.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly UserActionService _userActionService;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger, UserActionService userActionService)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _userActionService = userActionService;
         }
 
         /// <summary>
@@ -81,7 +84,7 @@ namespace Ecocarga.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Display(Name = "Remember me?")]
+            [Display(Name = "Recordar?")]
             public bool RememberMe { get; set; }
         }
 
@@ -116,6 +119,15 @@ namespace Ecocarga.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+                    // Obtener el usuario después de que el inicio de sesión fue exitoso
+                    var user = await _signInManager.UserManager.FindByEmailAsync(Input.Email);
+
+                    if (user != null)
+                    {
+                        // Registrar la acción de inicio de sesión
+                        await _userActionService.LogActionAsync("Inicio de sesión", $"El usuario {user.Email} ha iniciado sesión.");
+                    }
+
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
@@ -129,7 +141,7 @@ namespace Ecocarga.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Parece que los datos son erroneos");
                     return Page();
                 }
             }
